@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from "react"
+import { ToastContainer } from "react-toastify";
+import { estaLogueadoApi } from "./api/auth";
+import Portada from "./page/Portada";
+import Routing from "./routes/Routing";
 
-function App() {
+import { AuthContexto } from "./utils/contexts";
+
+
+export default function App() {
+
+  const [user, setUser] = useState(null);
+  const [loadUser, setLoadUser] = useState(false);
+  const [refreshLogin, setRefreshLogin] = useState(false);
+
+  useEffect(() =>{
+
+    setUser(estaLogueadoApi())
+    setRefreshLogin(false)
+    setLoadUser(true)
+
+  }, [refreshLogin])
+
+   //
+   if(!loadUser) return null
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AuthContexto.Provider value={user}>
+      {user ? <Routing/> : <Portada setRefreshLogin={setRefreshLogin} /> }
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </AuthContexto.Provider>
+  )
 }
 
-export default App;
