@@ -6,9 +6,9 @@ export function registrarAPI(user){
     const url = `${API_HOST}/registro`;
 
     const userAux = {
-        //...user,
+        ...user,
         nombre: user.nombre,
-        apellidos: user.apellido,
+        apellido: user.apellido,
         password: user.password,
         email: user.email.toLowerCase(),
         fechaNac: new Date()

@@ -2,6 +2,8 @@ import React from 'react'
 import { Container , Row, Col} from 'react-bootstrap';
 import Menu from '../../components/Menu';
 
+import "./BasicLayout.scss"
+
 export default function BasicLayout(props) {
     const {children, className} = props;
   return (

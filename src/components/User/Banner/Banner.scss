@@ -1,0 +1,39 @@
+@import "../../../scss/index.scss";
+
+.banner {
+    height: 200px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    .avatar{
+        position:absolute;
+        background-color: $background-dark-light;
+        width: 150px;
+        left: 20px;
+        height: 150px;
+        border-radius: 50%;
+        bottom: -50px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .options{
+        position: absolute;
+        bottom: -20%;
+        right: 1%;
+
+        button{
+            border-radius: 1%;
+            background-color: $primary;
+            width: 100%;
+
+            &:hover{
+                opacity: 0.6;
+            }
+        }
+    }
+
+}
