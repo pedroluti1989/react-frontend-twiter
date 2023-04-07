@@ -6,12 +6,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPowerOff,faUser, faHome, faUsers} from "@fortawesome/free-solid-svg-icons";
 import { Button } from 'react-bootstrap';
 import {logoutApi} from "../../api/auth"
-import userAuth from '../../hooks/userAuth';
+import useAuth from '../../hooks/useAuth';
 
 export default function Menu() {
 
      // HOOK Personalizado para recuperar informacion del usuario
-    const user = userAuth()
+    const user = useAuth()
 
     const logout = () =>{
         logoutApi();
