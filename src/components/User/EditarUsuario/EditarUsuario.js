@@ -1,21 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Row, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { editarUsuarioApi } from '../../../api/user'
+import { editarUsuarioApi, getUserApi } from '../../../api/user'
 import useAuth from '../../../hooks/useAuth'
 import BasicLayout from '../../../layout/BasicLayout'
-import validarCamposVacios, { validarEmail } from '../../../utils/validaciones/validarFormRegistro'
+import {validarEmail } from '../../../utils/validaciones/validarFormRegistro'
 
 import "./EditarUsuario.scss"
 
 export default function EditarUsuario() {
-    const usuarioLogueado = useAuth()
-    const [formData, setFormData] = useState(iniciarFormulario(usuarioLogueado))
+    //const {params} = props
+    const user = useAuth()
+    const [formData, setFormData] = useState(iniciarFormulario(user))
     const [loading, setLoading] = useState(false);
+/*  useEffect( ()=>{
+      getUserApi(params.id)
+      .then(response =>{
+        setFormData(response)
+          
+      })
+      .catch(() =>{
+          toast.error("El usuario no existe en la base de datos")
+      })
+  },[params])
+  */
 
-      console.log(usuarioLogueado)
-
-    const onSubmit = (e) =>{
+    const onSubmit = async (e) =>{
 
         e.preventDefault();
 
@@ -23,8 +33,8 @@ export default function EditarUsuario() {
         if (!validarEmail(formData.email)){
           toast.warning("Debes Ingresar un Email Valido")  ;
 
-        }else if(!validarCamposVacios(formData)){
-           toast.warning("Debes completar todos los campos")  ;
+        }else if(formData.email ===null || formData.nombre ===null ||  formData.apellido === null){
+           toast.warning("Debes completar todos los campos obligtorios")  ;
         }
         else{
 
@@ -32,22 +42,17 @@ export default function EditarUsuario() {
         //muestro el Spinner
         setLoading(true)
 
-        editarUsuarioApi(formData).then(response =>{
-          if (response.code){
-            toast.warning(response.message)
-          }else{
-            toast.success("Se han aplicado los cambios correctamente")
-            setFormData(iniciarFormulario)
-          }
-        })
+        await editarUsuarioApi(formData).then(response =>{
+            toast.success("Se han actualizado los datos correctamente")
+          })
         .catch(()=>{
-          toast.error("Error en el Servidor, intentelo mas tarde")
+          toast.error("Error al actualizar los datos")
         })
         .finally(()=>{
-           setLoading(false)
-
+          setLoading(false)
         })
         }
+        
         
     }
 
@@ -69,6 +74,7 @@ export default function EditarUsuario() {
                         type="text" placeholder='Nombre' 
                         value={formData.nombre}
                         name="nombre"
+                        defaultValue={formData.nombre}
                     />
                 </Col>
                 <Col>
@@ -76,6 +82,7 @@ export default function EditarUsuario() {
                         type="text" placeholder='Apellido'
                         value={formData.apellido}
                         name="apellido"
+                        defaultValue={formData.apellido}
                     />
                 </Col>
                 </Row>
@@ -97,7 +104,7 @@ export default function EditarUsuario() {
                         type="text" placeholder='Ubicacion' 
                         value={formData.ubicacion}
                         name="ubicacion"
-                        defaultValue={formData.ubicacion}
+                        defaultValue={formData.email}
                     />
                 </Col>
                 <Col>
@@ -115,7 +122,10 @@ export default function EditarUsuario() {
                 <Row>
                     <Col>
                     <Form.Control 
-                        type="textarea" placeholder='Biografia' 
+                        as="textarea"
+                        type="text" 
+                        placeholder='Biografia' 
+                        row="5"
                         value={formData.biografia}
                         name="biografia"
                         defaultValue={formData.biografia}
@@ -149,12 +159,12 @@ export default function EditarUsuario() {
 
 const  iniciarFormulario = (user) =>{
     return{
-      nombre: user.nombre,
-      apellido: user.apellido,
-      email: user.email,
-      ubicacion: user.ubicacion,
-      sitioWeb: user.sitioWeb,
-      biografia: user.biografia,
-      id: user.id
+      nombre: user.nombre || "",
+      apellido: user.apellido|| "",
+      email: user.email|| "",
+      ubicacion: user.ubicacion|| "",
+      sitioWeb: user.sitioWeb|| "",
+      biografia: user.biografia|| "",
+      id: user._id
     }
   }

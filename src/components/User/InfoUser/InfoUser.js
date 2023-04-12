@@ -3,12 +3,15 @@ import { DateBirth, Link, Location } from '../../../utils/Icons';
 import "./InfoUser.scss"
 import moment from "moment"
 import localization from "moment/locale/es"
+
 export default function InfoUser(props) {
   const {user} = props;
+
+
   return (
     <div className='info-user'>
       <h2 className='name-user'>
-        {user?.nombre} {user?.apellidos}
+        {user?.nombre} {user?.apellido}
       </h2>
       <p className='email-user'>
         {user?.email}

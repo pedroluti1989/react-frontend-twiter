@@ -20,3 +20,4 @@ export default function validarCamposVacios (formData){
     });
     return (validCount === size(formData))
 }
+

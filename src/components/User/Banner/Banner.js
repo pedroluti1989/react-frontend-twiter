@@ -21,8 +21,10 @@ export default function Banner(props) {
         style={{backgroundImage: `url('${avatarUrl}')`}}
         />
         <div className='options'>
-
-             {(usuarioLogueado?._id === user?.id ) &&(   <Link to="/edicionUser"><Button>Editar</Button></Link> )}
+S
+             {(usuarioLogueado?._id === user?.id ) &&(  
+                <Link to="/edicionUser" ><Button>Editar</Button></Link> 
+             )}
 
              {(usuarioLogueado?._id !== user?.id ) &&( <Button>Seguir</Button> )}
 

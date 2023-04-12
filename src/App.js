@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     <AuthContexto.Provider value={user}>
-      {user ? <Routing/> : <Portada setRefreshLogin={setRefreshLogin} /> }
+      {user ? <Routing setRefreshLogin={setRefreshLogin} /> : <Portada setRefreshLogin={setRefreshLogin} /> }
 
       <ToastContainer
         position="top-right"

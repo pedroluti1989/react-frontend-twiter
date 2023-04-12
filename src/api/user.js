@@ -30,45 +30,22 @@ export function getUserApi(id){
 
 /* editar usuario */
 
-export function editarUsuarioApi(user){
+export async function editarUsuarioApi(data){
 
     const url = `${API_HOST}/modificarPerfil`;
-
-    const userAux = {
-        ...user,
-        nombre: user.nombre,
-        apellido: user.apellido,
-        sitioWeb: user.sitioWeb,
-        biografia: user.biografia,
-        ubicacion: user.ubicacion,
-        email: user.email.toLowerCase(),
-        fechaNac: new Date()
-    }
-
-    console.log(userAux)
 
     const params ={
         method: "PUT",
         headers:{
+            "Authorization": `Bearer ${getTokenAPI()}`,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(userAux)
+        body: JSON.stringify(data)
     }
 
     return fetch(url, params)
     .then(response =>{
-        if (response.status >= 200 && response.status < 300){
-            return response.json();
-        }else if (response.status === 400){
-            console.log(response.status)
-            return {code: 400, message:"El email ya esta en uso"}
-        }else{
-            return {code: 404, message:"Error del servidor , intentelo mas tarde"}
-        }
-
-    })
-    .then(result =>{
-        return result
+            return response;
     })
     .catch(err =>{
         return err
