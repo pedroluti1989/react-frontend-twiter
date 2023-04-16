@@ -26,7 +26,6 @@ function Tweet (props){
   const [userInfo, setUserInfo] = useState(null)
   const [avatarUrl, setAvatarUrl] = useState(null)
 
-  console.log(userInfo)
 
   useEffect(() =>{
     getUserApi(tweet.userid)

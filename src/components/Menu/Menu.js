@@ -34,10 +34,11 @@ export default function Menu() {
         <Link to="" onClick={logout}>
             <FontAwesomeIcon icon={faPowerOff} />Salir
         </Link>
-
+        <Link to={`/crearTweet`}>
         <Button>
             Twitear
         </Button>
+        </Link>
         
      </div>
   )

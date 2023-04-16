@@ -50,4 +50,19 @@
     }
    }
 
+   &__loading{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 5%;
+
+      >div{
+         margin-bottom: 5%;
+     }
+
+   }
+
+
+
 }

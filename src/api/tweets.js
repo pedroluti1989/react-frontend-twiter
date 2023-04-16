@@ -22,3 +22,26 @@ export function getUserTweetsApi(userId, pagina){
     })
 
 }
+
+export async function crearTweetApi(data){
+
+    const url = `${API_HOST}/guardarTweet`;
+
+    const params ={
+        method: "POST",
+        headers:{
+            "Authorization": `Bearer ${getTokenAPI()}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+
+    return fetch(url, params)
+    .then(response =>{
+            return response;
+    })
+    .catch(err =>{
+        return err
+    })
+
+}

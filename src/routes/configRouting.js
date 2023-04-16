@@ -1,3 +1,4 @@
+import CrearTweet from "../components/Tweet/CrearTweet";
 import EditarUsuario from "../components/User/EditarUsuario";
 import Error404 from "../page/Error404";
 import Home from "../page/Home";
@@ -15,6 +16,11 @@ export default [
         path:"/edicionUser",
         exact:true,
         page: EditarUsuario
+    },
+    {
+        path:"/crearTweet",
+        exact:true,
+        page: CrearTweet
     },
 
     {

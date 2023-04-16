@@ -31,7 +31,6 @@ export default function FormularioLogin(props) {
             if (response.message){
               toast.warning(response.message)
             }else{
-              console.log(response.token)
               setTokenAPI(response.token)
               toast.success("Te has logueado correctamente")
               setRefreshLogin(true)

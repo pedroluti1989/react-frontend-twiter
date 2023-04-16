@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Row, Spinner } from 'react-bootstrap'
+import {  useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { editarUsuarioApi, getUserApi } from '../../../api/user'
 import useAuth from '../../../hooks/useAuth'
@@ -8,13 +9,14 @@ import {validarEmail } from '../../../utils/validaciones/validarFormRegistro'
 
 import "./EditarUsuario.scss"
 
-export default function EditarUsuario() {
-    //const {params} = props
+ export default function EditarUsuario(props) {
+    const navigate = useNavigate();
+
     const user = useAuth()
     const [formData, setFormData] = useState(iniciarFormulario(user))
     const [loading, setLoading] = useState(false);
-/*  useEffect( ()=>{
-      getUserApi(params.id)
+  useEffect( ()=>{
+      getUserApi(user._id)
       .then(response =>{
         setFormData(response)
           
@@ -22,8 +24,8 @@ export default function EditarUsuario() {
       .catch(() =>{
           toast.error("El usuario no existe en la base de datos")
       })
-  },[params])
-  */
+  },[user])
+  
 
     const onSubmit = async (e) =>{
 
@@ -44,12 +46,15 @@ export default function EditarUsuario() {
 
         await editarUsuarioApi(formData).then(response =>{
             toast.success("Se han actualizado los datos correctamente")
+            
           })
         .catch(()=>{
           toast.error("Error al actualizar los datos")
         })
         .finally(()=>{
           setLoading(false)
+          navigate(`/${user._id}`)
+        
         })
         }
         
@@ -59,6 +64,7 @@ export default function EditarUsuario() {
     const onChange = e =>{
         setFormData({...formData, [e.target.name]: e.target.value})
       }
+
   return (
     <BasicLayout>
        <div className='editar-user'>
