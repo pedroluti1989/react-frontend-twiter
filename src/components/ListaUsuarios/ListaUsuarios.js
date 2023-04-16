@@ -13,7 +13,7 @@ export default function ListaUsuarios(props) {
   return (
     <ul className='lista-usuarios'>
         {map(users, user => (
-            <User user={user} />
+            <User key={user.id} user={user} />
         ))}
     </ul>
   )

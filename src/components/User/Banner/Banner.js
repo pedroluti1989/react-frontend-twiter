@@ -4,6 +4,7 @@ import avatarDefault from "../../../imagenes/png/avatar-no-found.png"
 import "./Banner.scss"
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import BotonSeguir from '../BotonSeguir/BotonSeguir';
 
 export default function Banner(props) {
 
@@ -26,7 +27,7 @@ S
                 <Link to="/edicionUser" ><Button>Editar</Button></Link> 
              )}
 
-             {(usuarioLogueado?._id !== user?.id ) &&( <Button>Seguir</Button> )}
+             {(usuarioLogueado?._id !== user?.id ) &&( <BotonSeguir user={user} /> )}
 
         </div>
     

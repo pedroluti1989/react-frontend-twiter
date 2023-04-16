@@ -2,4 +2,12 @@
 
 .boton-seguir{
     display: flex;
+
+    &__siguiendo{
+        background-color: $primary-green ;
+    }
+
+    &__noseguir{
+        background-color: $primary-grey;
+    }
 }
