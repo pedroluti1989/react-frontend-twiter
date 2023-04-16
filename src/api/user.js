@@ -52,3 +52,64 @@ export async function editarUsuarioApi(data){
     })
 
 }
+
+/* subir el banner a la bd */
+
+export async function subirBannerApi(file){
+
+    const url = `${API_HOST}/subirBanner`;
+
+    const formData = new FormData()
+    formData.append("banner", file)
+
+    const params ={
+        method: "POST",
+        headers:{
+            "Authorization": `Bearer ${getTokenAPI()}`,
+        },
+        body: formData
+    }
+
+    return fetch(url, params)
+    .then(response =>{
+            return response.json();
+    })
+    .then(result =>{
+        return result
+    })
+    .catch(err =>{
+        return err
+    })
+
+}
+
+
+/* subir el banner a la bd */
+
+export async function subirAvatarApi(file){
+
+    const url = `${API_HOST}/subirAvatar`;
+
+    const formData = new FormData()
+    formData.append("avatar", file)
+
+    const params ={
+        method: "POST",
+        headers:{
+            "Authorization": `Bearer ${getTokenAPI()}`,
+        },
+        body: formData
+    }
+
+    return fetch(url, params)
+    .then(response =>{
+            return response.json();
+    })
+    .then(result =>{
+        return result
+    })
+    .catch(err =>{
+        return err
+    })
+
+}

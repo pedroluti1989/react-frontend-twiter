@@ -2,6 +2,7 @@ import React from 'react'
 import "./ListaUsuarios.scss"
 import {isEmpty, map} from "lodash"
 import User from './User';
+import BotonSeguir from '../User/BotonSeguir';
 
 export default function ListaUsuarios(props) {
     const {users} = props;

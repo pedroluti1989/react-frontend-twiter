@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Col, Form, Row, Spinner } from 'react-bootstrap'
 import {  useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { editarUsuarioApi, getUserApi } from '../../../api/user'
+import { editarUsuarioApi, getUserApi, subirAvatarApi, subirBannerApi } from '../../../api/user'
 import useAuth from '../../../hooks/useAuth'
 import BasicLayout from '../../../layout/BasicLayout'
 import {validarEmail } from '../../../utils/validaciones/validarFormRegistro'
+import {useDropzone} from "react-dropzone"
 
 import "./EditarUsuario.scss"
+import { API_HOST } from '../../../utils/constantes'
+import { Camara } from '../../../utils/Icons'
 
  export default function EditarUsuario(props) {
     const navigate = useNavigate();
@@ -15,6 +18,51 @@ import "./EditarUsuario.scss"
     const user = useAuth()
     const [formData, setFormData] = useState(iniciarFormulario(user))
     const [loading, setLoading] = useState(false);
+    const [bannerFile, setBannerFile] = useState(null)
+    const [avatarFile, setAvatarFile] = useState(null)
+
+    const [avatarUrl, setAvatarUrl] = useState(
+      `${API_HOST}/obtenerAvatar?id=${user._id}`
+    );
+    const [bannerUrl, setBannerUrl] = useState(
+      `${API_HOST}/obtenerBanner?id=${user._id}`
+    );
+
+  //Para subir el fichero del Banner
+    //----------------------------------------------------------------------------------------------
+  const onDropBanner = useCallback(aceptedFile =>{
+    const file = aceptedFile[0]
+    setBannerUrl(URL.createObjectURL(file))
+    setBannerFile(file) //Guardo el fichero en un estado
+  })
+
+  const {getRootProps: getRootPropsBanner, getInputProps: getInputPropsBanner} = useDropzone({
+    accept:"image/png, image/jpeg",
+    noKeyboard: true,
+    multiple: false,
+    onDrop: onDropBanner
+
+  })
+  //--------------------------------------------------------------------------------------------------
+
+
+    //Para subir el fichero del Avatar
+    //----------------------------------------------------------------------------------------------
+    const onDropAvatar = useCallback(aceptedFile =>{
+      const file = aceptedFile[0]
+      setAvatarUrl(URL.createObjectURL(file))
+      setAvatarFile(file) //Guardo el fichero en un estado
+    })
+  
+    const {getRootProps: getRootPropsAvatar, getInputProps: getInputPropsAvatar} = useDropzone({
+      accept:"image/png, image/jpeg",
+      noKeyboard: true,
+      multiple: false,
+      onDrop: onDropAvatar
+  
+    })
+    //--------------------------------------------------------------------------------------------------
+
   useEffect( ()=>{
       getUserApi(user._id)
       .then(response =>{
@@ -26,6 +74,8 @@ import "./EditarUsuario.scss"
       })
   },[user])
   
+
+  /* ---------Guardar los datos en la BD --------------------------------------------------------------------------------*/
 
     const onSubmit = async (e) =>{
 
@@ -40,22 +90,43 @@ import "./EditarUsuario.scss"
         }
         else{
 
-        //Inserto en la BASE DE DATOS
-        //muestro el Spinner
-        setLoading(true)
+            //Inserto en la BASE DE DATOS
+            //muestro el Spinner
+            setLoading(true)
 
-        await editarUsuarioApi(formData).then(response =>{
-            toast.success("Se han actualizado los datos correctamente")
+            await editarUsuarioApi(formData).then(response =>{
+                toast.success("Se han actualizado los datos correctamente")
+                
+              })
+            .catch(()=>{
+              toast.error("Error al actualizar los datos")
+            })
+            .finally(()=>{
+              setLoading(false)
             
-          })
-        .catch(()=>{
-          toast.error("Error al actualizar los datos")
-        })
-        .finally(()=>{
-          setLoading(false)
-          navigate(`/${user._id}`)
-        
-        })
+            })
+
+            /* Actualizo el Banner */
+            if (bannerFile){
+              await subirBannerApi(bannerFile)
+              .catch(()=>{
+                  toast.error("Error al subir el Banner")
+              })
+            }
+
+             /* Actualizo el Avatar */
+             if (avatarFile){
+                 await subirAvatarApi(avatarFile)
+                .catch(()=>{
+                   toast.error("Error al subir el Avatar")
+                })
+              }
+
+            /* Regreso a la pagina anterior */
+
+            navigate(`/${user._id}`)
+
+
         }
         
         
@@ -71,7 +142,28 @@ import "./EditarUsuario.scss"
           <h2>
             Modificar mis Datos
          </h2>
+
         <div className='editar-user__form'>
+            
+          <div 
+            className='banner' 
+            style={{backgroundImage:`url('${bannerUrl}')`}}
+            {...getRootPropsBanner()}
+          >
+              <input {...getInputPropsBanner()} />
+              <Camara />
+          </div>
+
+          <div 
+              className='avatar' 
+              style={{backgroundImage:`url('${avatarUrl}')`}}
+              {...getRootPropsAvatar()}
+              >
+              <input {...getInputPropsAvatar()} />
+              <Camara />
+            </div>
+
+
             <Form onSubmit={onSubmit} onChange ={onChange }>
             <Form.Group>
                 <Row>
@@ -150,10 +242,18 @@ import "./EditarUsuario.scss"
                     />
        
             </Form.Group>
-            
-            <Button variant="primary" type="submit">
-            {!loading?  "Aplicar Cambios" : <Spinner animation='border'/>}
-            </Button>
+            {loading? (
+                   <div className='editar-user__loading'>
+                        <Spinner animation="border" variant='info'/>
+                        Procesando...
+                    </div>
+                ):(
+                    
+                  <Button variant="primary" type="submit">
+                  Aplicar Cambios
+                  </Button>
+                )
+                }
 
         </Form>
       </div>

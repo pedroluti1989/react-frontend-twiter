@@ -3,6 +3,7 @@ import { getUserApi } from '../../api/user';
 import {Card} from "react-bootstrap"
 import Avatar from '../User/Avatar/Avatar';
 import { Link } from 'react-router-dom';
+import BotonSeguir from '../User/BotonSeguir';
 
 export default function User(props) {
 
@@ -17,15 +18,17 @@ export default function User(props) {
     },[user])
   return (
    <div className='lista-usuarios__usuario'>
-      <Link as={Link} to={`/${user.id}`} ><Avatar user={user}/></Link>
+        <Link as={Link} to={`/${user.id}`} ><Avatar user={user}/></Link>
         <Card as={Link} to={`/${user.id}`}  className="lista-usuarios__card" >
 
             <h4>{userInfo?.nombre} {userInfo?.apellido} </h4>
             <p>
               {userInfo?.biografia}
             </p>
-    
+        
         </Card>
+        <BotonSeguir className="lista-usuarios__botonera"  user={user}/>
     </div>
+
   )
 }

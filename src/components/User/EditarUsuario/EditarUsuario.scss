@@ -2,6 +2,19 @@
 
 .editar-user{
         padding: 15px;
+
+    &__loading{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            //margin-top: 5%;
+      
+            >div{
+               margin-bottom: 5%;
+           }
+      
+         }
     
 
     h2{
@@ -17,4 +30,71 @@
         border: 1px solid $border-grey;
         padding: 2%;
     }
+
+    .banner{
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $background-dark-light;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        //padding: -20px !important;
+
+        &:hover{
+            cursor: pointer;
+        }
+
+        svg{
+            width: 50px;
+            fill: $font-light;
+            &:hover{
+                fill:$font-dark;
+            }
+
+        }
+
+
+    }
+
+
+    .avatar{
+        position:relative;
+        background-color: $background-dark-light;
+        width: 150px;
+        left: 20px;
+        top: -50px;
+        height: 150px;
+        border-radius: 50%;
+        //bottom: -50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &:hover{
+            cursor: pointer;
+        }
+
+        svg{
+            width: 50px;
+            fill: $font-light;
+            &:hover{
+                fill:$font-dark;
+            }
+
+        }
+    }
+
+    button{
+        display: flex;
+        align-items: center;
+        position: center;
+    }
+
+
+
 }
