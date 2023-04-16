@@ -2,12 +2,52 @@
 
 .boton-seguir{
     display: flex;
+    height: 50%;
+    button{
 
-    &__siguiendo{
-        background-color: $primary-green ;
+        &.siguiendo1{
+            background-color: $primary-green ;
+            border-color : $primary-green ;
+            content: "Siguiendo";
+            display: flex;
+        
+            &:hover{
+                background-color: $danger;
+                border-color: $danger;
+            
+
+                &::before{
+                    content: "Dejar de Seguir";
+                }
+
+                span{
+                    display: none;
+                }
+            }
+        }
+
+        &.siguiendo{
+            background-color: $primary-dark;
+            border-color : $primary-dark;
+            color: $primary-green-light;
+        }
+
+        &.nosiguiendo{
+
+           background-color: $danger;
+           border-color: $danger;
+           &:hover{
+            opacity: 0.8;
+           }
+
+
+            
+        }
+
     }
 
-    &__noseguir{
-        background-color: $primary-grey;
-    }
+
+
+
+
 }

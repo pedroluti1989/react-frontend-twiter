@@ -12,6 +12,8 @@ export default function Banner(props) {
     const bannerUrl = user?.banner ? `${API_HOST}/obtenerBanner?id=${user.id}`: null;
     const avatarUrl = user?.avatar ? `${API_HOST}/obtenerAvatar?id=${user.id}`: avatarDefault;
 
+
+  if (user){
   return (
     <div 
       className='banner'
@@ -33,4 +35,5 @@ S
     
     </div>
   )
+   }
 }
